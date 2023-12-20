@@ -1,16 +1,23 @@
 <script setup>
   import { ref } from 'vue';
 
-  const addElementEvent = defineEmits(['add-element']);
+  const addElementEvent = defineEmits(['add-element', 'search-input']);
 
   let element = ref("");
   let filter = ref(false);
+  let search = ref("")
   
   function addElement(){
     addElementEvent('add-element', element.value);
     element.value = "";
     
   }
+
+  function searchInput(){
+    addElementEvent('search-input', search.value)
+  }
+
+  
 </script>
 
 <template>
@@ -20,7 +27,7 @@
             <button @click="addElement()">Add</button><br>
         </div>
         <div class="checkbox-wrapper">
-          <input type="text" v-model="search" placeholder="Search tasks" v-if="filter" >
+          <input type="text" @input="searchInput" v-model="search" placeholder="Search tasks" v-if="filter" >
           <input v-model="filter" type="checkbox" class="check" id="check1-61">
           <label for="check1-61" class="label">
             <svg width="45" height="45" viewBox="0 0 95 95">

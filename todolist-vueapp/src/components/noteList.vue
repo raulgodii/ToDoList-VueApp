@@ -1,5 +1,6 @@
 <script setup>
-  defineProps(['filterElements']);
+  import { computed, onMounted } from 'vue';
+  const props = defineProps(['arrElements', 'search']);
   const elementEvent = defineEmits(['delete-element', 'change-done-element', 'change-priority']);
 
 
@@ -31,6 +32,18 @@
           break;
       }
   }
+
+
+  const filterElements = computed(() =>{
+    let filterArr =  props.arrElements.filter(el => el.text.includes(props.search));
+    filterArr.sort((a,b) => {
+        return b.priority-a.priority;
+    });
+    return filterArr;
+  })
+
+  
+
 </script>
 
 <template>
