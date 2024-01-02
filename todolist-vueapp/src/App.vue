@@ -1,3 +1,32 @@
+<!-- 
+function eliminarNota(id){
+  console.log("Eliminando nota con id = " + id)
+  deleteDoc(doc(db, "todos", id
+  ))
+}
+
+function editarNota(id){
+  const nota = doc(db, "todos", id)
+  updateDoc(nota, {
+    texto: "editado"
+  })
+}
+</script>
+
+<template>
+
+  <input type="text" name="" id="" v-model="contenidoNota">
+  <button @click="altanota">Alta nota</button>
+  
+  <ul>
+    <li v-for="todo in todos" :key="todo.id">
+      <span>{{ todo.texto }}</span>
+      <button @click="eliminarNota(todo.id)">Eliminar</button>
+      <button @click="editarNota(todo.id)">Editar</button>
+    </li>
+  </ul>
+</template> -->
+
 <script setup>
   import headerv from './components/headerv.vue';
   import addNote from './components/addNote.vue';
@@ -64,25 +93,51 @@
       localStorage.setItem("listElements", JSON.stringify(listElements.value) );
   }
 
-  function deleteElement(element){
+  function deleteElement(element, id){
         
           const index = listElements.value.indexOf(element);
           if (index !== -1) {
               listElements.value.splice(index, 1);
               localStorage.setItem("listElements", JSON.stringify(listElements.value) );
           }
+
+          deleteDoc(doc(db, "list", id))
       }
 
-      function changeDoneElement(element){
+      function changeDoneElement(element, id){
+        const nota = doc(db, "list", id)
+        
+        updateDoc(nota, {
+          done: true
+        })
       element.done = true;
       localStorage.setItem("listElements", JSON.stringify(listElements.value) );
   }
 
-  function changePriority(element){
-      element.priority++;
+  function changePriority(element, id){
+    element.priority++;
       if(element.priority >=3){
           element.priority=0;
       }
+
+    const nota = doc(db, "list", id)
+      let indexNotaMod = list.value.findIndex(objeto => objeto.id == id);
+
+      console.log(list[indexNotaMod])
+
+      if(list[indexNotaMod].priority == 1){
+        
+        updateDoc(nota, {
+          priority: 0
+        })
+      } else {
+        updateDoc(nota, {
+          priority: list[indexNotaMod].priority+1
+        })
+      }
+
+      
+
       localStorage.setItem("listElements", JSON.stringify(listElements.value) );
   }
 
@@ -102,7 +157,7 @@
     <addNote @add-element="addElement" @search-input="searchInput"></addNote>
     <p> {{listElements.length==0 ? 'No tasks yet': 'There are ' + listElements.length + ' tasks'}}</p>
     <p>You have {{countElements}} tasks pending of {{listElements.length}}</p>
-    <noteList :arrElements="listElements" :search="search" @delete-element="deleteElement" @change-done-element="changeDoneElement" @change-priority="changePriority"></noteList>
+    <noteList :arrElements="list" :search="search" @delete-element="deleteElement" @change-done-element="changeDoneElement" @change-priority="changePriority"></noteList>
   </div>
 
   <footer>
