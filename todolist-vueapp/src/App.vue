@@ -3,6 +3,15 @@
   import addNote from './components/addNote.vue';
   import noteList from './components/noteList.vue';
   import { ref, computed } from 'vue';
+  import { useCollection } from 'vuefire'
+  import { useFirestore } from 'vuefire';
+  import { collection, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore"; 
+  import { connectStorageEmulator } from 'firebase/storage';
+
+  let db = useFirestore();
+
+  const list = useCollection(collection(db, 'list'));
+
 
   
   window.onload = () => {
@@ -29,6 +38,13 @@
           done: false, 
       }
       );
+
+      const docRef = addDoc(collection(db, "list"), {
+          text: element, 
+          priority: 0,
+          date: setDate(Date.now()),
+          done: false, 
+    });
       
       function setDate(milisegundos) {
           const fecha = new Date(milisegundos);
