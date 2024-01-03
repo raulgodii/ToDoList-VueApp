@@ -44,13 +44,13 @@ function editarNota(id){
 
   
   window.onload = () => {
-    const storedListElements = localStorage.getItem("listElements");
+    // const storedListElements = localStorage.getItem("listElements");
 
-    if (storedListElements) {
-      listElements.value = JSON.parse(storedListElements);
-    } else {
-      listElements.value = [];
-    }
+    // if (storedListElements) {
+    //   listElements.value = JSON.parse(storedListElements);
+    // } else {
+    //   listElements.value = [];
+    // }
   }
 
 
@@ -60,13 +60,13 @@ function editarNota(id){
   let search = ref("")
 
   function addElement(element){
-      listElements.value.push({
-          text: element, 
-          priority: 0,
-          date: setDate(Date.now()),
-          done: false, 
-      }
-      );
+      // listElements.value.push({
+      //     text: element, 
+      //     priority: 0,
+      //     date: setDate(Date.now()),
+      //     done: false, 
+      // }
+      // );
 
       const docRef = addDoc(collection(db, "list"), {
           text: element, 
@@ -90,55 +90,64 @@ function editarNota(id){
           return fechaLegible;
       }
 
-      localStorage.setItem("listElements", JSON.stringify(listElements.value) );
+      //localStorage.setItem("listElements", JSON.stringify(listElements.value) );
   }
 
   function deleteElement(element, id){
         
-          const index = listElements.value.indexOf(element);
-          if (index !== -1) {
-              listElements.value.splice(index, 1);
-              localStorage.setItem("listElements", JSON.stringify(listElements.value) );
-          }
+          // const index = listElements.value.indexOf(element);
+          // if (index !== -1) {
+          //     listElements.value.splice(index, 1);
+          //     localStorage.setItem("listElements", JSON.stringify(listElements.value) );
+          // }
 
           deleteDoc(doc(db, "list", id))
       }
 
       function changeDoneElement(element, id){
         const nota = doc(db, "list", id)
+      let indexNotaMod = list.value.findIndex(objeto => objeto.id == id);
+
+
+      if(list.value[indexNotaMod].done){
         
+        updateDoc(nota, {
+          done: false
+        })
+      } else {
         updateDoc(nota, {
           done: true
         })
-      element.done = true;
-      localStorage.setItem("listElements", JSON.stringify(listElements.value) );
+      }
+
+      //element.done = true;
+      //localStorage.setItem("listElements", JSON.stringify(listElements.value) );
   }
 
   function changePriority(element, id){
-    element.priority++;
-      if(element.priority >=3){
-          element.priority=0;
-      }
+    // element.priority++;
+    //   if(element.priority >=3){
+    //       element.priority=0;
+    //   }
 
     const nota = doc(db, "list", id)
       let indexNotaMod = list.value.findIndex(objeto => objeto.id == id);
 
-      console.log(list[indexNotaMod])
 
-      if(list[indexNotaMod].priority == 1){
+      if(list.value[indexNotaMod].priority == 2){
         
         updateDoc(nota, {
           priority: 0
         })
       } else {
         updateDoc(nota, {
-          priority: list[indexNotaMod].priority+1
+          priority: list.value[indexNotaMod].priority+1
         })
       }
 
       
 
-      localStorage.setItem("listElements", JSON.stringify(listElements.value) );
+      // localStorage.setItem("listElements", JSON.stringify(listElements.value) );
   }
 
   function searchInput(searchin){
@@ -146,7 +155,8 @@ function editarNota(id){
   }
 
   const countElements = computed(() =>{
-    return listElements.value.filter(el => !el.done).length;
+    //return listElements.value.filter(el => !el.done).length;
+    return list.value.filter(el => !el.done).length;
   })
   
 </script>
@@ -155,8 +165,8 @@ function editarNota(id){
   <headerv></headerv>
   <div id="main">
     <addNote @add-element="addElement" @search-input="searchInput"></addNote>
-    <p> {{listElements.length==0 ? 'No tasks yet': 'There are ' + listElements.length + ' tasks'}}</p>
-    <p>You have {{countElements}} tasks pending of {{listElements.length}}</p>
+    <p> {{list.length==0 ? 'No tasks yet': 'There are ' + list.length + ' tasks'}}</p>
+    <p>You have {{countElements}} tasks pending of {{list.length}}</p>
     <noteList :arrElements="list" :search="search" @delete-element="deleteElement" @change-done-element="changeDoneElement" @change-priority="changePriority"></noteList>
   </div>
 
