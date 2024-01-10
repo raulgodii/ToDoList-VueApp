@@ -28,7 +28,6 @@ function editarNota(id){
 </template> -->
 
 <script setup>
-  import headerv from './components/headerv.vue';
   import addNote from './components/addNote.vue';
   import noteList from './components/noteList.vue';
   import { ref, computed } from 'vue';
@@ -36,6 +35,7 @@ function editarNota(id){
   import { useFirestore } from 'vuefire';
   import { collection, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore"; 
   import { connectStorageEmulator } from 'firebase/storage';
+  import { RouterLink, RouterView } from 'vue-router'
 
   let db = useFirestore();
 
@@ -162,7 +162,6 @@ function editarNota(id){
 </script>
 
 <template>
-  <headerv></headerv>
   <div id="main">
     <addNote @add-element="addElement" @search-input="searchInput"></addNote>
     <p> {{list.length==0 ? 'No tasks yet': 'There are ' + list.length + ' tasks'}}</p>
@@ -174,7 +173,6 @@ function editarNota(id){
       <p>© Raúl González | 2023</p>
       <p>Open code in <a href="#" style="color: rgb(184, 114, 17);">GitHub</a></p>
   </footer>
-  
   
 </template>
 
