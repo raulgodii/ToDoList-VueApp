@@ -63,13 +63,20 @@ onAuthStateChanged(auth, (user) => {
 
 <template>
   <header>
-    <i class="fa-solid fa-check" style="color: rgb(184, 114, 17)"></i>
-    <h1>To-Do List</h1>
-    <router-link to="/">Landing</router-link>
-    <router-link to="/personal" v-if="loged">Personal Area</router-link>
-    <router-link to="/admin">Admin</router-link>
 
-    <button @click="iniciarSesion" v-if="!loged">Iniciar Sesión</button>
-    <button @click="cerrarSesion" v-if="loged">Cerrar Sesión</button>
+    <div> </div>
+
+    <div>
+      <i class="fa-solid fa-check" style="color: rgb(184, 114, 17)"></i>
+      <h1><router-link class="router-link title" to="/">To-Do List</router-link></h1>
+    </div>
+
+    <div>
+      <router-link class="router-link linked" to="/personal" v-if="loged">Personal Area</router-link>
+      <router-link class="router-link linked" to="/admin">Admin</router-link>
+      <button @click="iniciarSesion" class="btnLogin linked" v-if="!loged">Iniciar Sesión</button>
+      <button @click="cerrarSesion" class="btnLogin linked" v-if="loged">Cerrar Sesión</button>
+    </div>
+  
   </header>
 </template>
