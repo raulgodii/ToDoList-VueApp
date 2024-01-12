@@ -37,10 +37,11 @@ function editarNota(id){
   import { connectStorageEmulator } from 'firebase/storage';
   import { RouterLink, RouterView } from 'vue-router';
   import { onAuthStateChanged, getAuth } from 'firebase/auth';
+  import { query, where } from 'firebase/firestore';
 
   let db = useFirestore();
 
-  const list = useCollection(collection(db, 'list'));
+  let list = ref([]);
 
 
   
@@ -57,9 +58,11 @@ function editarNota(id){
 
   
 
-  let listElements = ref([]);
+  //let listElements = ref([]);
   let search = ref("");
   let uid = null;
+
+
 
   const auth = getAuth();
 
@@ -68,9 +71,9 @@ function editarNota(id){
       // User is signed in
       uid = user.uid;
       console.log("User id: " + uid);
-      let q = query(listPrueba, where("uid", "==", "hNx48OsZn3NKzLJCLD2nTu7tZlG2"));
-      list.value = useCollection(q);
-
+      
+      let q = query(collection(db, 'list'), where("uid", "==", "hNx48OsZn3NKzLJCLD2nTu7tZlG2"));
+  list = useCollection(q);
 
     } else {
       // User is signed out
@@ -92,7 +95,7 @@ function editarNota(id){
     priority: 0,
     date: setDate(Date.now()),
     done: false,
-    uid: uid,
+    uid: uid
   });
       
       function setDate(milisegundos) {
