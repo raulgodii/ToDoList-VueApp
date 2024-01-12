@@ -35,7 +35,8 @@ function editarNota(id){
   import { useFirestore } from 'vuefire';
   import { collection, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore"; 
   import { connectStorageEmulator } from 'firebase/storage';
-  import { RouterLink, RouterView } from 'vue-router'
+  import { RouterLink, RouterView } from 'vue-router';
+  import { onAuthStateChanged, getAuth } from 'firebase/auth';
 
   let db = useFirestore();
 
@@ -57,7 +58,25 @@ function editarNota(id){
   
 
   let listElements = ref([]);
-  let search = ref("")
+  let search = ref("");
+  let uid = null;
+
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in
+      uid = user.uid;
+      console.log("User id: " + uid);
+      let q = query(listPrueba, where("uid", "==", "hNx48OsZn3NKzLJCLD2nTu7tZlG2"));
+      list.value = useCollection(q);
+
+
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
 
   function addElement(element){
       // listElements.value.push({
@@ -69,11 +88,12 @@ function editarNota(id){
       // );
 
       const docRef = addDoc(collection(db, "list"), {
-          text: element, 
-          priority: 0,
-          date: setDate(Date.now()),
-          done: false, 
-    });
+    text: element,
+    priority: 0,
+    date: setDate(Date.now()),
+    done: false,
+    uid: uid,
+  });
       
       function setDate(milisegundos) {
           const fecha = new Date(milisegundos);
