@@ -41,45 +41,40 @@ function editarNota(id){
 
   let db = useFirestore();
 
-  let list = ref([]);
+  // window.onload = () => {
+  //   // const storedListElements = localStorage.getItem("listElements");
 
-
-  
-  window.onload = () => {
-    // const storedListElements = localStorage.getItem("listElements");
-
-    // if (storedListElements) {
-    //   listElements.value = JSON.parse(storedListElements);
-    // } else {
-    //   listElements.value = [];
-    // }
-  }
+  //   // if (storedListElements) {
+  //   //   listElements.value = JSON.parse(storedListElements);
+  //   // } else {
+  //   //   listElements.value = [];
+  //   // }
+  // }
 
 
   
 
   //let listElements = ref([]);
   let search = ref("");
-  let uid = null;
+
+  let auth = getAuth();
+  let usuario = auth.currentUser;
+
+  let q = query(collection(db, 'list'), where("uid", "==", usuario.uid));
+  let list = useCollection(q);
 
 
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     // User is signed in
+  //     uid = user.uid;
+  //     console.log("User id: " + uid);
 
-  const auth = getAuth();
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in
-      uid = user.uid;
-      console.log("User id: " + uid);
-      
-      let q = query(collection(db, 'list'), where("uid", "==", "hNx48OsZn3NKzLJCLD2nTu7tZlG2"));
-  list = useCollection(q);
-
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
+  //   } else {
+  //     // User is signed out
+  //     // ...
+  //   }
+  // });
 
   function addElement(element){
       // listElements.value.push({
@@ -95,7 +90,7 @@ function editarNota(id){
     priority: 0,
     date: setDate(Date.now()),
     done: false,
-    uid: uid
+    uid: usuario.uid
   });
       
       function setDate(milisegundos) {

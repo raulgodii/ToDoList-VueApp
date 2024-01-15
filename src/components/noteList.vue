@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { ref } from 'vue';
 
 
 const props = defineProps(['arrElements', 'search']);
@@ -39,7 +40,7 @@ function checkPriority(priority) {
 
 
 const filterElements = computed(() => {
-  let filterArr = props.arrElements.filter(el => el.text.includes(props.search)).filter(el => el.uid == uid);
+  let filterArr = props.arrElements.filter(el => el.text.includes(props.search)).filter(el => el.uid == usuario.uid);
   filterArr.sort((a, b) => {
     return b.priority - a.priority;
   });
@@ -47,20 +48,19 @@ const filterElements = computed(() => {
 })
 
 
-let uid = null;
+let auth = getAuth();
+let usuario = auth.currentUser;
 
-const auth = getAuth();
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     // User is signed in
+//     uid = user.uid;
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in
-    uid = user.uid;
-
-  } else {
-    // User is signed out
-    // ...
-  }
-});
+//   } else {
+//     // User is signed out
+//     // ...
+//   }
+// });
 
 
 

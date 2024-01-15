@@ -3,7 +3,9 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+let router = useRouter();
 
 function iniciarSesion() {
   const auth = getAuth();
@@ -14,8 +16,9 @@ function iniciarSesion() {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       // The signed-in user info.
-      const user = result.user;
-      console.log("user name: " + user.displayName)
+      usuario.value = result.user;
+      router.push({ path: '/personal' })
+      console.log("user name: " + usuario.value.displayName)
       // IdP data available using getAdditionalUserInfo(result)
       // ...
     }).catch((error) => {
@@ -31,16 +34,18 @@ function iniciarSesion() {
 }
 
 function cerrarSesion() {
-  const auth = getAuth();
+  let auth = getAuth();
   signOut(auth).then(() => {
     // Sign-out successful.
+    usuario.value=null;
+    router.push("/");
   }).catch((error) => {
     // An error happened.
   });
 }
 
 const auth = getAuth();
-let loged = ref(false);
+let usuario = ref(auth.currentUser);
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -48,14 +53,16 @@ onAuthStateChanged(auth, (user) => {
     // https://firebase.google.com/docs/reference/js/auth.user
     const uid = user.uid;
     console.log("Loged")
-    loged.value = true;
+    usuario.value = user;
+    //loged.value = true;
     console.log("LOGED: " + loged)
+
     // ...
   } else {
     // User is signed out
     // ...
     console.log("No log")
-    loged.value = false;
+    //loged.value = false;
   }
 });
 
@@ -72,10 +79,10 @@ onAuthStateChanged(auth, (user) => {
     </div>
 
     <div>
-      <router-link class="router-link linked" to="/personal" v-if="loged">Personal Area</router-link>
+      <router-link class="router-link linked" to="/personal" v-if="usuario">Personal Area</router-link>
       <router-link class="router-link linked" to="/admin">Admin</router-link>
-      <button @click="iniciarSesion" class="btnLogin linked" v-if="!loged">Iniciar Sesión</button>
-      <button @click="cerrarSesion" class="btnLogin linked" v-if="loged">Cerrar Sesión</button>
+      <button @click="iniciarSesion" class="btnLogin linked" v-if="!usuario">Iniciar Sesión</button>
+      <button @click="cerrarSesion" class="btnLogin linked" v-if="usuario">Cerrar Sesión</button>
     </div>
   
   </header>

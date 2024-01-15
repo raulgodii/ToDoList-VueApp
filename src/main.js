@@ -8,6 +8,10 @@ import admin from './components/admin.vue';
 import landing from './components/landingPage.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { ref } from 'vue';
+
+let auth = getAuth();
+let usuario = getAuth().currentUser;
 
 // Rutas
 const routes = [
@@ -27,7 +31,7 @@ router.beforeEach((to, from) => {
   // ...
   // explicitly return false to cancel the navigation
   console.log(to.path);
-  if(to.path=="/personal" && !loged){
+  if(to.path=="/personal" && !usuario){
     return false;
   } else {
     return true;
@@ -37,20 +41,21 @@ router.beforeEach((to, from) => {
 
 
 
-const auth = getAuth();
-let loged = false;
+
+
+// let loged = false;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
     const uid = user.uid;
-    loged = true;
+    usuario = user;
+    router.push("/personal");
     // ...
   } else {
     // User is signed out
     // ...
-    loged = false;
     router.push("/");
   }
 });
