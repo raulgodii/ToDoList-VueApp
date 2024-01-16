@@ -39,9 +39,20 @@ router.beforeEach((to, from) => {
 
 });
 
+router.beforeEach((to, from) => {
+  // ...
+  // explicitly return false to cancel the navigation
+  if(to.path=="/admin" && !usuario){
+    return false;
+  } else {
+    if(usuario.uid != "hNx48OsZn3NKzLJCLD2nTu7tZlG2"){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-
-
+});
 
 // let loged = false;
 

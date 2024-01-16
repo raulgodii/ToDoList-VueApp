@@ -55,7 +55,7 @@ onAuthStateChanged(auth, (user) => {
     console.log("Loged")
     usuario.value = user;
     //loged.value = true;
-    console.log("LOGED: " + loged)
+    //console.log("LOGED: " + loged)
 
     // ...
   } else {
