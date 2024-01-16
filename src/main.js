@@ -30,9 +30,16 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   // ...
   // explicitly return false to cancel the navigation
-  console.log(to.path);
   if(to.path=="/personal" && !usuario){
     return false;
+  } else if(to.path=="/admin"){
+    if(!usuario){
+      return false;
+    } else if(usuario.uid != "hNx48OsZn3NKzLJCLD2nTu7tZlG2"){
+      return false;
+    } else{
+      return true
+    }
   } else {
     return true;
   }
@@ -42,15 +49,7 @@ router.beforeEach((to, from) => {
 router.beforeEach((to, from) => {
   // ...
   // explicitly return false to cancel the navigation
-  if(to.path=="/admin" && !usuario){
-    return false;
-  } else {
-    if(usuario.uid != "hNx48OsZn3NKzLJCLD2nTu7tZlG2"){
-      return true;
-    } else {
-      return false;
-    }
-  }
+  
 
 });
 

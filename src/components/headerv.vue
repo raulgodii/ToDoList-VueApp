@@ -38,6 +38,7 @@ function cerrarSesion() {
   signOut(auth).then(() => {
     // Sign-out successful.
     usuario.value=null;
+    esAdmin.value = false;
     router.push("/");
   }).catch((error) => {
     // An error happened.
@@ -46,6 +47,7 @@ function cerrarSesion() {
 
 const auth = getAuth();
 let usuario = ref(auth.currentUser);
+let esAdmin = ref(false);
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -54,6 +56,9 @@ onAuthStateChanged(auth, (user) => {
     const uid = user.uid;
     console.log("Loged")
     usuario.value = user;
+    if(user.uid == "hNx48OsZn3NKzLJCLD2nTu7tZlG2"){
+      esAdmin.value = true;
+    }
     //loged.value = true;
     //console.log("LOGED: " + loged)
 
@@ -80,7 +85,7 @@ onAuthStateChanged(auth, (user) => {
 
     <div>
       <router-link class="router-link linked" to="/personal" v-if="usuario">Personal Area</router-link>
-      <router-link class="router-link linked" to="/admin">Admin</router-link>
+      <router-link class="router-link linked" to="/admin" v-if="esAdmin">Admin</router-link>
       <button @click="iniciarSesion" class="btnLogin linked" v-if="!usuario">Iniciar Sesión</button>
       <button @click="cerrarSesion" class="btnLogin linked" v-if="usuario">Cerrar Sesión</button>
     </div>
