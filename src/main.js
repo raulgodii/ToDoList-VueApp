@@ -8,6 +8,7 @@ import admin from './components/admin.vue';
 import landing from './components/landingPage.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import signUp from './components/signUp.vue';
 import { ref } from 'vue';
 
 let auth = getAuth();
@@ -18,6 +19,7 @@ const routes = [
   { path: '/', component: landing },
   { path: '/personal', component: personalArea },
   { path: '/admin', component: admin },
+  { path: '/signUp', component: signUp }
 ]
 
 const router = createRouter({
