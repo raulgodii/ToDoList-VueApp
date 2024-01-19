@@ -334,3 +334,37 @@ background-color: #212d38;
     background-color: rgb(255, 196, 118);
     cursor: pointer;
 }
+
+.hero{
+    background-image: url(img/hero.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 100px;
+}
+
+.hero h1, .hero h2{
+    color: white;
+}
+
+.hero h1{
+    text-transform: uppercase;
+}
+
+.hero a{
+    color: white;
+    background-color: rgb(184, 114, 17);
+    padding: 5px 10px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.hero a:hover{
+    cursor: pointer;
+    background-color: rgb(243, 189, 113);
+}
