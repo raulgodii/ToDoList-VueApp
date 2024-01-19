@@ -186,11 +186,6 @@ function editarNota(id){
     <p>You have {{countElements}} tasks pending of {{list.length}}</p>
     <noteList :arrElements="list" :search="search" @delete-element="deleteElement" @change-done-element="changeDoneElement" @change-priority="changePriority"></noteList>
   </div>
-
-  <footer>
-      <p>© Raúl González | 2023</p>
-      <p>Open code in <a href="#" style="color: rgb(184, 114, 17);">GitHub</a></p>
-  </footer>
   
 </template>
 
