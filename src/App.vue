@@ -180,7 +180,7 @@ function editarNota(id){
 </script>
 
 <template>
-  <div id="main">
+  <div class="main" id="main">
     <addNote @add-element="addElement" @search-input="searchInput"></addNote>
     <p> {{list.length==0 ? 'No tasks yet': 'There are ' + list.length + ' tasks'}}</p>
     <p>You have {{countElements}} tasks pending of {{list.length}}</p>

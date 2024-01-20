@@ -10,6 +10,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import signUp from './components/signUp.vue';
 import { ref } from 'vue';
+import identify from './components/identify.vue';
 
 let auth = getAuth();
 let usuario = getAuth().currentUser;
@@ -19,7 +20,8 @@ const routes = [
   { path: '/', component: landing },
   { path: '/personal', component: personalArea },
   { path: '/admin', component: admin },
-  { path: '/signUp', component: signUp }
+  { path: '/signUp', component: signUp },
+  { path: '/identify', component: identify }
 ]
 
 const router = createRouter({
