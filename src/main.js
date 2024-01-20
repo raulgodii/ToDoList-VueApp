@@ -53,7 +53,11 @@ router.beforeEach((to, from) => {
 router.beforeEach((to, from) => {
   // ...
   // explicitly return false to cancel the navigation
-  
+  if((to.path=="/identify" || to.path=="/signUp") && usuario){
+    return false;
+  } else {
+    return true;
+  }
 
 });
 
