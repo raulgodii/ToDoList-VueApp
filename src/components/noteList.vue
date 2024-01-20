@@ -4,7 +4,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ref } from 'vue';
 
 
-const props = defineProps(['arrElements', 'search']);
+const props = defineProps(['arrElements', 'search', 'esAdmin']);
 const elementEvent = defineEmits(['delete-element', 'change-done-element', 'change-priority']);
 
 
@@ -40,16 +40,12 @@ function checkPriority(priority) {
 
 
 const filterElements = computed(() => {
-  let filterArr = props.arrElements.filter(el => el.text.includes(props.search)).filter(el => el.uid == usuario.uid);
+  let filterArr = props.arrElements.filter(el => el.text.includes(props.search));
   filterArr.sort((a, b) => {
     return b.priority - a.priority;
   });
   return filterArr;
 })
-
-
-let auth = getAuth();
-let usuario = auth.currentUser;
 
 // onAuthStateChanged(auth, (user) => {
 //   if (user) {
@@ -78,6 +74,7 @@ let usuario = auth.currentUser;
         <p><span :class="checkPriority(element.priority)">{{ checkPriority(element.priority) }}</span><span
             style="color: rgb(116, 116, 116); font-size: 0.8em;">{{ element.date }}</span></p>
       </div>
+      <p v-if="esAdmin">UID: {{ element.uid }}</p>
       <button class="btn" @click="deleteElement(element, element.id)">
         <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon">
           <path transform="translate(-2.5 -1.25)"
@@ -87,4 +84,5 @@ let usuario = auth.currentUser;
       </button>
 
     </li>
-</ul></template>
+</ul>
+</template>

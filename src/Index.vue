@@ -8,7 +8,9 @@
   
   <headerv></headerv>
   
-  <router-view></router-view>
-
+  <main>
+    <router-view></router-view>
+  </main>
+  
   <footerv></footerv>
 </template>

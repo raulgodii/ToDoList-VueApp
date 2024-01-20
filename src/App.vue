@@ -62,6 +62,7 @@ function editarNota(id){
 
   let q = query(collection(db, 'list'), where("uid", "==", usuario.uid));
   let list = useCollection(q);
+  console.log(list);
 
 
   // onAuthStateChanged(auth, (user) => {
