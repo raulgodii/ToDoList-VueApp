@@ -4,56 +4,105 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 let router = useRouter();
 
 function iniciarSesion() {
     console.log("entra");
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      usuario.value = result.user;
-      //router.push({ path: '/personal' })
-      console.log("user name: " + usuario.value.displayName)
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
-    }).catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            usuario.value = result.user;
+            //router.push({ path: '/personal' })
+            console.log("user name: " + usuario.value.displayName)
+            // IdP data available using getAdditionalUserInfo(result)
+            // ...
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        });
 }
 
 const auth = getAuth();
 let usuario = ref(auth.currentUser);
 
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/auth.user
-    const uid = user.uid;
-    console.log("Loged")
-    usuario.value = user;
-    //loged.value = true;
-    //console.log("LOGED: " + loged)
+    if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        console.log("Loged")
+        usuario.value = user;
+        //loged.value = true;
+        //console.log("LOGED: " + loged)
 
-    // ...
-  } else {
-    // User is signed out
-    // ...
-    console.log("No log")
-    //loged.value = false;
-  }
+        // ...
+    } else {
+        // User is signed out
+        // ...
+        console.log("No log")
+        //loged.value = false;
+    }
 });
+
+let emailReq = ref(false);
+let emailValid = ref(false);
+let errorLog = ref(false);
+let passReq = ref(false);
+let email;
+let pass;
+
+function inicioSesionUsuario() {
+    if (!email) {
+        emailReq.value = true;
+    } else if (!validarEmail(email)) {
+        emailValid.value = true;
+        emailReq.value = false;
+    } else {
+        emailValid.value = true;
+        emailValid.value = false;
+    }
+    if (!pass) {
+        passReq.value = true;
+    } else {
+        passReq.value = false;
+    }
+    if (!emailReq.value && !passReq.value && !emailValid.value) {
+
+        const auth = getAuth();
+
+        signInWithEmailAndPassword(auth, email, pass)
+            .then((userCredential) => {
+                errorLog.value = false;
+                const user = userCredential.user;
+                console.log('Usuario autenticado:', user);
+            })
+            .catch((error) => {
+                errorLog.value = true;
+                console.error('Error al iniciar sesión:', error.message);
+            });
+
+    }
+}
+
+function validarEmail(email) {
+    // Expresión regular para validar direcciones de correo electrónico
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Usamos test() para verificar si el email coincide con la expresión regular
+    return regexEmail.test(email);
+}
 
 </script>
 
@@ -71,8 +120,15 @@ onAuthStateChanged(auth, (user) => {
                         </path>
                     </g>
                 </svg>
-                <input type="text" class="input" placeholder="Enter your Email">
+                <input type="text" class="input" placeholder="Enter your Email" v-model="email">
             </div>
+            <div class="flex-column" v-if="emailReq">
+                <label style="color: red;">Email required</label>
+            </div>
+            <div class="flex-column" v-if="emailValid">
+                <label style="color: red;">Email not valid</label>
+            </div>
+            <br>
 
             <div class="flex-column">
                 <label>Password </label>
@@ -86,12 +142,18 @@ onAuthStateChanged(auth, (user) => {
                         d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0">
                     </path>
                 </svg>
-                <input type="password" class="input" placeholder="Enter your Password">
+                <input type="password" class="input" placeholder="Enter your Password" v-model="pass">
                 <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z">
                     </path>
                 </svg>
+            </div>
+            <div class="flex-column" v-if="passReq">
+                <label style="color: red;">Password required</label>
+            </div>
+            <div class="flex-column" v-if="errorLog">
+                <label style="color: red;">Invalid username or password</label>
             </div>
 
             <div class="flex-row">
@@ -101,8 +163,10 @@ onAuthStateChanged(auth, (user) => {
                 </div>
                 <span class="span">Forgot password?</span>
             </div>
-            <button class="button-submit">Sign In</button>
-            <p class="p">Don't have an account? <span class="span"><RouterLink to="signUp">Sign Up</RouterLink></span>
+            <button class="button-submit" @click.prevent="inicioSesionUsuario()">Sign In</button>
+            <p class="p">Don't have an account? <span class="span">
+                    <RouterLink to="signUp">Sign Up</RouterLink>
+                </span>
 
             </p>
             <p class="p line">Or With</p>

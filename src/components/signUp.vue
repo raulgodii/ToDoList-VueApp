@@ -15,7 +15,7 @@ let pass2;
 function registro() {
     if (!email) {
         emailReq.value = true;
-    } else if(!validarEmail(email)){
+    } else if (!validarEmail(email)) {
         emailValid.value = true;
         emailReq.value = false;
     } else {
@@ -25,45 +25,37 @@ function registro() {
     if (!pass1 || !pass2) {
         passReq.value = true;
     } else {
-        console.log("p1: " + pass1 + "  p2: " + pass2);
         passReq.value = false;
         if (pass1 !== pass2) {
             passMatch.value = true;
-        } else if(pass1.length < 6){
+        } else if (pass1.length < 6) {
             passLength.value = true;
         } else {
             passLength.value = false;
             passMatch.value = false;
         }
     }
-    if (!emailReq.value && !passReq.value && !passMatch.value) {
-        console.log("entra");
+    if (!emailReq.value && !passReq.value && !passMatch.value && !emailValid.value) {
 
         const auth = getAuth();
+
         createUserWithEmailAndPassword(auth, email, pass1)
             .then((userCredential) => {
-                // Signed in 
                 const user = userCredential.user;
-                console.log("registrado");
-                // ...
+                console.log('Usuario registrado:', user);
             })
             .catch((error) => {
-                emailValid.value=true;
-                // Manejo de errores específico
                 console.error('Error al registrar usuario:', error.message);
-                // Puedes imprimir el objeto de error completo para obtener más detalles
-                console.error('Error completo:', error);
-                // ..
             });
     }
 }
 
 function validarEmail(email) {
-  // Expresión regular para validar direcciones de correo electrónico
-  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Expresión regular para validar direcciones de correo electrónico
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Usamos test() para verificar si el email coincide con la expresión regular
-  return regexEmail.test(email);
+    // Usamos test() para verificar si el email coincide con la expresión regular
+    return regexEmail.test(email);
 }
 
 </script>
