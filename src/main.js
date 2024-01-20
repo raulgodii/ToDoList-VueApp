@@ -38,12 +38,15 @@ router.beforeEach((to, from) => {
     return false;
   } else if(to.path=="/admin"){
     if(!usuario){
+      console.log("sfsdf");
       return false;
     } else if(usuario.uid != "hNx48OsZn3NKzLJCLD2nTu7tZlG2"){
       return false;
     } else{
       return true
     }
+  } else if((to.path=="/identify" || to.path=="/signUp") && usuario){
+    return false;
   } else {
     return true;
   }
@@ -53,11 +56,7 @@ router.beforeEach((to, from) => {
 router.beforeEach((to, from) => {
   // ...
   // explicitly return false to cancel the navigation
-  if((to.path=="/identify" || to.path=="/signUp") && usuario){
-    return false;
-  } else {
-    return true;
-  }
+  
 
 });
 
@@ -74,6 +73,7 @@ onAuthStateChanged(auth, (user) => {
   } else {
     // User is signed out
     // ...
+    usuario = null;
     router.push("/");
   }
 });
