@@ -40,7 +40,7 @@ router.beforeEach((to, from) => {
     if(!usuario){
       console.log("sfsdf");
       return false;
-    } else if(usuario.uid != "hNx48OsZn3NKzLJCLD2nTu7tZlG2"){
+    } else if(usuario.uid != "lxZJ6MIkkVZwOfdna6izKEfrm373"){
       return false;
     } else{
       return true
