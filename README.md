@@ -9,26 +9,17 @@ This is a simple ToDo List web application that allows users to log in, view the
 - **Priority Management**: Users can change the priority of their tasks to better organize their ToDo list.
 - **Mark as Completed**: Completed tasks can be marked as such to keep track of accomplishments.
 - **Delete Notes**: Users have the ability to delete notes they no longer need.
+- **Responsive Design**: The application is designed to be responsive and work seamlessly on various devices and screen sizes.
+- **Admin Functionality**: An admin section allows the management of all notes and users.
 
 ## Technologies Used
 
-- Frontend: HTML, CSS, JavaScript
-- Backend: [Specify your backend framework, e.g., Node.js, Django, Flask]
-- Database: [Specify your database, e.g., MongoDB, MySQL]
+- Frontend: Vue.js, HTML, CSS, JavaScript
+- Backend: Firebase
+- Build Tool: Vite
+- Hosting: Firebase Hosting
 
-## Getting Started
-
-Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) installed
-- [Specify any other prerequisites]
-
-### Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/your-username/todo-list.git
-   cd todo-list
+## Usage
+1. Create an account or log in if you already have one.
+2. Explore the features to manage your ToDo list.
+3. Access the admin section for global note and user management.
