@@ -3,7 +3,7 @@
 This is a simple ToDo List web application that allows users to log in, view their personal notes, and perform various actions such as changing priority, marking as completed, and deleting notes.
 ![image](https://github.com/raulgodii/ToDoList-VueApp/assets/102313699/dbe95169-34ef-4ce6-b996-d4acd2c17eec)
 
-*** Web Link: [Click Here](https://todolist-vueapp.web.app) ***
+***Web Link: [Click Here](https://todolist-vueapp.web.app)***
 
 
 ## Features
