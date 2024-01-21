@@ -56,7 +56,7 @@ onAuthStateChanged(auth, (user) => {
     const uid = user.uid;
     console.log("Loged")
     usuario.value = user;
-    if(user.uid == "hNx48OsZn3NKzLJCLD2nTu7tZlG2"){
+    if(user.uid == "lxZJ6MIkkVZwOfdna6izKEfrm373"){
       esAdmin.value = true;
     }
     //loged.value = true;
@@ -81,7 +81,7 @@ onAuthStateChanged(auth, (user) => {
       <h1><router-link class="router-link" to="/">To-Do List</router-link></h1>
     </div>
 
-    <div>
+    <div class="navM">
       <router-link class="router-link linked" to="/personal" v-if="usuario">Personal Area</router-link>
       <router-link class="router-link linked" to="/admin" v-if="esAdmin">Admin</router-link>
       <router-link class="router-link btnLogin" to="/identify" v-if="!usuario">Identify</router-link>
