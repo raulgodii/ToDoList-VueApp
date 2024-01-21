@@ -1,29 +1,34 @@
-# todolist-vueapp
+# ToDo List Web Application
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a simple ToDo List web application that allows users to log in, view their personal notes, and perform various actions such as changing priority, marking as completed, and deleting notes.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- **User Authentication**: Users can create accounts and log in to access their personalized ToDo lists.
+- **View Personal Notes**: Each user can view their own set of ToDo notes on the dashboard.
+- **Priority Management**: Users can change the priority of their tasks to better organize their ToDo list.
+- **Mark as Completed**: Completed tasks can be marked as such to keep track of accomplishments.
+- **Delete Notes**: Users have the ability to delete notes they no longer need.
 
-## Customize configuration
+## Technologies Used
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- Frontend: HTML, CSS, JavaScript
+- Backend: [Specify your backend framework, e.g., Node.js, Django, Flask]
+- Database: [Specify your database, e.g., MongoDB, MySQL]
 
-## Project Setup
+## Getting Started
 
-```sh
-npm install
-```
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-### Compile and Hot-Reload for Development
+### Prerequisites
 
-```sh
-npm run dev
-```
+- [Node.js](https://nodejs.org/) installed
+- [Specify any other prerequisites]
 
-### Compile and Minify for Production
+### Installation
 
-```sh
-npm run build
-```
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/todo-list.git
+   cd todo-list
